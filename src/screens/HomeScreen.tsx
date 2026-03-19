@@ -1,15 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/RootNavigator';
+import { homeScreenStyles as styles } from '../styles/HomeScreenStyle';
 
-export default function HomeScreen() {
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+export default function HomeScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>Device Features</Text>
-          <Text style={styles.subtitle}>Explore your device capabilities</Text>
+          <View style={styles.headerContent}>
+            <View>
+              <Text style={styles.title}>Device Features</Text>
+              <Text style={styles.subtitle}>Explore your device capabilities</Text>
+            </View>
+            <TouchableOpacity 
+              style={styles.addButton}
+              onPress={() => navigation.navigate('AddEntry')}
+            >
+              <Text style={styles.addButtonText}>+ Add</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Feature Cards */}
@@ -30,6 +45,19 @@ export default function HomeScreen() {
               Discover available device features
             </Text>
             <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Explore</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>📸 Photo Capture</Text>
+            <Text style={styles.cardDescription}>
+              Take and save photos with location
+            </Text>
+            <TouchableOpacity 
+              style={styles.button}
+              onPress={() => navigation.navigate('PhotoCapture')}
+            >
               <Text style={styles.buttonText}>Explore</Text>
             </TouchableOpacity>
           </View>
@@ -65,77 +93,3 @@ export default function HomeScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  scrollContent: {
-    paddingBottom: 30,
-  },
-  header: {
-    backgroundColor: '#6366f1',
-    paddingVertical: 40,
-    paddingHorizontal: 20,
-    marginBottom: 30,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#e0e7ff',
-  },
-  cardsContainer: {
-    paddingHorizontal: 16,
-    gap: 16,
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1f2937',
-    marginBottom: 8,
-  },
-  cardDescription: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginBottom: 16,
-    lineHeight: 20,
-  },
-  button: {
-    backgroundColor: '#6366f1',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  footer: {
-    marginTop: 30,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: 14,
-    color: '#9ca3af',
-    textAlign: 'center',
-  },
-});
