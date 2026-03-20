@@ -46,6 +46,7 @@ export const entriesListScreenStyles = StyleSheet.create({
   listContent: {
     padding: DIMENSIONS.padding.container,
     paddingTop: DIMENSIONS.spacing.lg,
+    paddingBottom: DIMENSIONS.spacing.xl,
   },
   entryCard: {
     backgroundColor: COLORS.darkBgSecondary,
@@ -88,5 +89,16 @@ export const entriesListScreenStyles = StyleSheet.create({
     fontSize: DIMENSIONS.fontSize.sm,
     color: COLORS.textLight,
     textAlign: 'center',
+  },
+  footer: {
+    marginTop: DIMENSIONS.spacing.lg,
+    paddingTop: DIMENSIONS.spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.darkBorder,
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: DIMENSIONS.fontSize.sm,
+    color: COLORS.textLight,
   },
 });

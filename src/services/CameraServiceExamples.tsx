@@ -2,7 +2,7 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   Image,
   Alert,
   ScrollView,
@@ -59,9 +59,6 @@ export async function Example2_CustomOptions() {
   }
 }
 
-/**
- * Example 3: Using useCamera hook (Recommended for React components)
- */
 export function Example3_UseCamera() {
   const { image, loading, takePicture, clearImage } = useCamera({
     onSuccess: (capturedImage) => {
@@ -74,16 +71,16 @@ export function Example3_UseCamera() {
 
   return (
     <View>
-      <TouchableOpacity onPress={takePicture} disabled={loading}>
+      <Pressable onPress={takePicture} disabled={loading}>
         <Text>{loading ? 'Capturing...' : 'Take Picture'}</Text>
-      </TouchableOpacity>
+      </Pressable>
 
       {image && (
         <>
           <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />
-          <TouchableOpacity onPress={clearImage}>
+          <Pressable onPress={clearImage}>
             <Text>Clear</Text>
-          </TouchableOpacity>
+          </Pressable>
         </>
       )}
     </View>
@@ -98,9 +95,9 @@ export function Example4_GalleryPicker() {
 
   return (
     <View>
-      <TouchableOpacity onPress={pickFromGallery} disabled={loading}>
+      <Pressable onPress={pickFromGallery} disabled={loading}>
         <Text>{loading ? 'Loading...' : 'Pick from Gallery'}</Text>
-      </TouchableOpacity>
+      </Pressable>
 
       {imageUri && (
         <>
@@ -112,9 +109,6 @@ export function Example4_GalleryPicker() {
   );
 }
 
-/**
- * Example 5: Using useCamera with custom camera options
- */
 export function Example5_CustomCameraOptions() {
   const { image, loading, takePictureWithOptions, error } = useCamera();
 
@@ -128,9 +122,9 @@ export function Example5_CustomCameraOptions() {
 
   return (
     <View>
-      <TouchableOpacity onPress={handleTakePicture} disabled={loading}>
+      <Pressable onPress={handleTakePicture} disabled={loading}>
         <Text>{loading ? 'Please wait...' : 'Capture High Quality Photo'}</Text>
-      </TouchableOpacity>
+      </Pressable>
 
       {error && <Text style={{ color: 'red' }}>{error.message}</Text>}
 
@@ -140,44 +134,6 @@ export function Example5_CustomCameraOptions() {
     </View>
   );
 }
-
-/**
- * AVAILABLE METHODS:
- * 
- * CameraService Methods:
- * - requestCameraPermissions()           // Request camera access
- * - checkCameraPermissions()             // Check if permissions are granted
- * - captureImage()                       // Open camera with default settings
- * - captureImageWithOptions(options)     // Open camera with custom settings
- * - pickImageFromGallery()               // Open gallery picker
- * 
- * useCamera Hook Returns:
- * - image                                // CapturedImage object
- * - imageUri                             // String URI of captured image
- * - loading                              // Boolean indicating operation status
- * - error                                // Error object if operation failed
- * - takePicture()                        // Capture image with default settings
- * - takePictureWithOptions(options)      // Capture with custom options
- * - pickFromGallery()                    // Pick image from gallery
- * - clearImage()                         // Clear current image
- */
-
-/**
- * INTERFACES:
- * 
- * CapturedImage {
- *   uri: string;           // Image file URI
- *   width: number;         // Image width in pixels
- *   height: number;        // Image height in pixels
- *   type?: string;         // Image type/format
- * }
- * 
- * CameraOptions {
- *   allowsEditing?: boolean;     // Allow user to edit image (default: true)
- *   aspect?: [number, number];   // Aspect ratio (default: [4, 3])
- *   quality?: number;            // Image quality 0-1 (default: 1)
- * }
- */
 
 export default function CameraExamplesDocumentation() {
   return (

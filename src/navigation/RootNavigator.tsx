@@ -7,12 +7,14 @@ import HomeScreen from '../screens/HomeScreen';
 import AddEntryScreen from '../screens/AddEntryScreen';
 import EntriesListScreen from '../screens/EntriesListScreen';
 import PhotoCaptureScreen from '../screens/PhotoCaptureScreen';
+import TravelEntryScreen from '../screens/TravelEntryScreen';
 import { COLORS } from '../styles/globalStyles';
 
 export type RootStackParamList = {
   MainTabs: undefined;
   AddEntry: undefined;
   PhotoCapture: undefined;
+  TravelEntry: undefined;
 };
 
 export type TabsParamList = {
@@ -45,22 +47,22 @@ function TabNavigator() {
       }}
     >
       <Tab.Screen
-        name="EntriesList"
-        component={EntriesListScreen}
-        options={{
-          tabBarLabel: 'Entries',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="list" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
           tabBarLabel: 'Features',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="grid" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="EntriesList"
+        component={EntriesListScreen}
+        options={{
+          tabBarLabel: 'Entries',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="list" size={size} color={color} />
           ),
         }}
       />
@@ -107,6 +109,14 @@ export default function RootNavigator() {
           component={PhotoCaptureScreen}
           options={{
             title: 'Capture Photo',
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name="TravelEntry"
+          component={TravelEntryScreen}
+          options={{
+            title: 'Travel Entry',
             presentation: 'modal',
           }}
         />

@@ -32,23 +32,6 @@ export const homeScreenStyles = StyleSheet.create({
     fontSize: DIMENSIONS.fontSize.md,
     color: COLORS.primaryLight,
   },
-  addButton: {
-    backgroundColor: COLORS.white,
-    paddingVertical: DIMENSIONS.spacing.sm,
-    paddingHorizontal: DIMENSIONS.spacing.lg,
-    borderRadius: DIMENSIONS.borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addButtonText: {
-    color: COLORS.primary,
-    fontSize: DIMENSIONS.fontSize.md,
-    fontWeight: DIMENSIONS.fontWeight.semibold,
-  },
-  cardsContainer: {
-    paddingHorizontal: DIMENSIONS.padding.container,
-    gap: DIMENSIONS.gap.lg,
-  },
   card: {
     backgroundColor: COLORS.white,
     borderRadius: DIMENSIONS.borderRadius.lg,
@@ -59,30 +42,6 @@ export const homeScreenStyles = StyleSheet.create({
     shadowRadius: DIMENSIONS.shadow.radius,
     elevation: 3,
   },
-  cardTitle: {
-    fontSize: DIMENSIONS.fontSize.lg,
-    fontWeight: DIMENSIONS.fontWeight.semibold,
-    color: COLORS.text,
-    marginBottom: DIMENSIONS.spacing.md,
-  },
-  cardDescription: {
-    fontSize: DIMENSIONS.fontSize.sm,
-    color: COLORS.textMuted,
-    marginBottom: DIMENSIONS.spacing.lg,
-    lineHeight: DIMENSIONS.fontSize.md * DIMENSIONS.lineHeight.normal,
-  },
-  button: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: DIMENSIONS.spacing.sm,
-    paddingHorizontal: DIMENSIONS.spacing.lg,
-    borderRadius: DIMENSIONS.borderRadius.md,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: COLORS.white,
-    fontSize: DIMENSIONS.fontSize.sm,
-    fontWeight: DIMENSIONS.fontWeight.semibold,
-  },
   footer: {
     marginTop: DIMENSIONS.spacing.xxxl,
     paddingHorizontal: DIMENSIONS.padding.screenHorizontal,
@@ -92,5 +51,52 @@ export const homeScreenStyles = StyleSheet.create({
     fontSize: DIMENSIONS.fontSize.sm,
     color: COLORS.textLight,
     textAlign: 'center',
+  },
+  cardImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: DIMENSIONS.borderRadius.md,
+    marginBottom: DIMENSIONS.spacing.md,
+  },
+  cardLocation: {
+    marginBottom: DIMENSIONS.spacing.md,
+  },
+  cardLocationText: {
+    color: COLORS.textSecondary,
+    fontSize: DIMENSIONS.fontSize.sm,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 400,
+  },
+  emptyText: {
+    fontSize: DIMENSIONS.fontSize.lg,
+    color: COLORS.textSecondary,
+    marginBottom: DIMENSIONS.spacing.md,
+  },
+  emptySubtext: {
+    fontSize: DIMENSIONS.fontSize.sm,
+    color: COLORS.textMuted,
+    textAlign: 'center',
+  },
+  flatListContent: {
+    paddingHorizontal: DIMENSIONS.spacing.md,
+    paddingVertical: DIMENSIONS.spacing.md,
+    flexGrow: 1,
+  },
+  removeButton: {
+    backgroundColor: COLORS.error || '#FF6B6B',
+    paddingVertical: DIMENSIONS.spacing.sm,
+    paddingHorizontal: DIMENSIONS.spacing.lg,
+    borderRadius: DIMENSIONS.borderRadius.md,
+    alignItems: 'center',
+    marginTop: DIMENSIONS.spacing.md,
+  },
+  removeButtonText: {
+    color: COLORS.white,
+    fontSize: DIMENSIONS.fontSize.sm,
+    fontWeight: DIMENSIONS.fontWeight.semibold,
   },
 });

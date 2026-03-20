@@ -1,95 +1,108 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/RootNavigator';
+import { Text, View, FlatList, Image, Pressable, Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import React, { useCallback } from 'react';
+import { TabsParamList } from '../navigation/RootNavigator';
 import { homeScreenStyles as styles } from '../styles/HomeScreenStyle';
+import { useEntries } from '../contexts/EntriesContext';
+import { Entry } from '../types/Entry';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type Props = BottomTabScreenProps<TabsParamList, 'Home'>;
 
 export default function HomeScreen({ navigation }: Props) {
+  const { entries, loadEntries, removeEntry } = useEntries();
+
+  useFocusEffect(
+    useCallback(() => {
+      loadEntries();
+    }, [loadEntries])
+  );
+
+  const handleRemoveEntry = (entry: Entry) => {
+    Alert.alert('Delete Entry', `Are you sure you want to delete this entry?`, [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        onPress: async () => {
+          try {
+            await removeEntry(entry.id);
+            Alert.alert('Success', 'Entry deleted successfully');
+          } catch (error) {
+            Alert.alert('Error', 'Failed to delete entry');
+          }
+        },
+        style: 'destructive',
+      },
+    ]);
+  };
+
+  const renderEntry = ({ item }: { item: Entry }) => (
+    <View style={styles.card}>
+      <Image
+        source={{ uri: item.imageUri }}
+        style={styles.cardImage}
+      />
+      <View style={styles.cardLocation}>
+        <Text style={styles.cardLocationText}>
+          {item.address
+            ? `Location: ${item.address.city}, ${item.address.country}`
+            : 'Location: No address available'}
+        </Text>
+      </View>
+      <Pressable
+        style={styles.removeButton}
+        onPress={() => handleRemoveEntry(item)}
+      >
+        <Text style={styles.removeButtonText}>Remove</Text>
+      </Pressable>
+    </View>
+  );
+
+  const renderEmpty = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>
+        No Entries yet
+      </Text>
+      <Text style={styles.emptySubtext}>
+        Add a travel entry to see photos with location here.
+      </Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.headerContent}>
-            <View>
-              <Text style={styles.title}>Device Features</Text>
-              <Text style={styles.subtitle}>Explore your device capabilities</Text>
-            </View>
-            <TouchableOpacity 
-              style={styles.addButton}
-              onPress={() => navigation.navigate('AddEntry')}
-            >
-              <Text style={styles.addButtonText}>+ Add</Text>
-            </TouchableOpacity>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
+          <View>
+            <Text style={styles.title}>Captured Photos</Text>
+            <Text style={styles.subtitle}>
+              {entries.length} photo{entries.length !== 1 ? 's' : ''}
+            </Text>
           </View>
         </View>
+      </View>
 
-        {/* Feature Cards */}
-        <View style={styles.cardsContainer}>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>📱 Device Info</Text>
-            <Text style={styles.cardDescription}>
-              View detailed information about your device
-            </Text>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Explore</Text>
-            </TouchableOpacity>
+      {/* List */}
+      <FlatList
+        data={entries}
+        renderItem={renderEntry}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.flatListContent}
+        ListEmptyComponent={renderEmpty}
+        ListFooterComponent={
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Travel Journal • Home</Text>
           </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>🎨 Features</Text>
-            <Text style={styles.cardDescription}>
-              Discover available device features
-            </Text>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Explore</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>📸 Photo Capture</Text>
-            <Text style={styles.cardDescription}>
-              Take and save photos with location
-            </Text>
-            <TouchableOpacity 
-              style={styles.button}
-              onPress={() => navigation.navigate('PhotoCapture')}
-            >
-              <Text style={styles.buttonText}>Explore</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>⚙️ Settings</Text>
-            <Text style={styles.cardDescription}>
-              Configure your preferences
-            </Text>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Explore</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>ℹ️ About</Text>
-            <Text style={styles.cardDescription}>
-              Learn more about this app
-            </Text>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Explore</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            Made with ❤️ for exploring device features
-          </Text>
-        </View>
-      </ScrollView>
+        }
+        scrollEnabled={true}
+      />
     </View>
   );
 }

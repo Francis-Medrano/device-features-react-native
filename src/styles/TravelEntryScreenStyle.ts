@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { COLORS } from './globalStyles';
 import { DIMENSIONS } from './dimensions';
 
-export const photoCaptureScreenStyles = StyleSheet.create({
+export const travelEntryScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.darkBg,
@@ -46,6 +46,13 @@ export const photoCaptureScreenStyles = StyleSheet.create({
     textAlign: 'center',
   },
   takePictureButton: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: DIMENSIONS.spacing.lg,
+    borderRadius: DIMENSIONS.borderRadius.md,
+    alignItems: 'center',
+    marginBottom: DIMENSIONS.spacing.lg,
+  },
+  galleryButton: {
     backgroundColor: COLORS.secondary,
     paddingVertical: DIMENSIONS.spacing.lg,
     borderRadius: DIMENSIONS.borderRadius.md,
@@ -58,13 +65,13 @@ export const photoCaptureScreenStyles = StyleSheet.create({
     fontWeight: DIMENSIONS.fontWeight.semibold,
   },
   removePictureButton: {
-    backgroundColor: COLORS.darkBorder,
+    backgroundColor: COLORS.error,
     paddingVertical: DIMENSIONS.spacing.md,
     borderRadius: DIMENSIONS.borderRadius.md,
     alignItems: 'center',
   },
   removePictureButtonText: {
-    color: COLORS.textLight,
+    color: COLORS.white,
     fontSize: DIMENSIONS.fontSize.sm,
     fontWeight: DIMENSIONS.fontWeight.semibold,
   },
@@ -82,7 +89,7 @@ export const photoCaptureScreenStyles = StyleSheet.create({
     borderRadius: DIMENSIONS.borderRadius.md,
     padding: DIMENSIONS.padding.card,
     borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
+    borderLeftColor: COLORS.secondary,
     minHeight: 100,
     justifyContent: 'center',
   },
@@ -104,7 +111,7 @@ export const photoCaptureScreenStyles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.secondary,
     paddingVertical: DIMENSIONS.spacing.lg,
     borderRadius: DIMENSIONS.borderRadius.md,
     alignItems: 'center',
@@ -152,6 +159,7 @@ export const photoCaptureScreenStyles = StyleSheet.create({
   modalLabel: {
     color: COLORS.textSecondary,
     marginBottom: DIMENSIONS.spacing.sm,
+    fontSize: DIMENSIONS.fontSize.sm,
   },
   modalInput: {
     backgroundColor: COLORS.lightBg,
@@ -184,10 +192,10 @@ export const photoCaptureScreenStyles = StyleSheet.create({
     alignItems: 'center',
   },
   modalSaveButton: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.secondary,
   },
   modalCancelButton: {
-    backgroundColor: COLORS.lightBg,
+    backgroundColor: COLORS.darkBorder,
   },
   modalSaveButtonText: {
     color: COLORS.white,
@@ -195,7 +203,7 @@ export const photoCaptureScreenStyles = StyleSheet.create({
     fontSize: DIMENSIONS.fontSize.md,
   },
   modalCancelButtonText: {
-    color: COLORS.text,
+    color: COLORS.white,
     fontWeight: DIMENSIONS.fontWeight.bold,
     fontSize: DIMENSIONS.fontSize.md,
   },

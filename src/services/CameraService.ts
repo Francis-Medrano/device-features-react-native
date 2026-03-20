@@ -71,7 +71,7 @@ class CameraService {
         quality: 1,
       });
 
-      if (result.cancelled) {
+      if (result.canceled || !result.assets || result.assets.length === 0) {
         return null;
       }
 
@@ -80,7 +80,7 @@ class CameraService {
         uri: asset.uri,
         width: asset.width,
         height: asset.height,
-        type: asset.type,
+        type: asset.type || 'image',
       };
     } catch (error) {
       console.error('Error capturing image:', error);
@@ -112,7 +112,7 @@ class CameraService {
         quality: options.quality ?? 1,
       });
 
-      if (result.cancelled) {
+      if (result.canceled || !result.assets || result.assets.length === 0) {
         return null;
       }
 
@@ -121,7 +121,7 @@ class CameraService {
         uri: asset.uri,
         width: asset.width,
         height: asset.height,
-        type: asset.type,
+        type: asset.type || 'image',
       };
     } catch (error) {
       console.error('Error capturing image with options:', error);
@@ -141,7 +141,7 @@ class CameraService {
         quality: 1,
       });
       
-      if (result.cancelled) {
+      if (result.canceled || !result.assets || result.assets.length === 0) {
         return null;
       }
 
@@ -150,7 +150,7 @@ class CameraService {
         uri: asset.uri,
         width: asset.width,
         height: asset.height,
-        type: asset.type,
+        type: asset.type || 'image',
       };
     } catch (error) {
       console.error('Error picking image from gallery:', error);

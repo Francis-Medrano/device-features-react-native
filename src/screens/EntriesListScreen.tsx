@@ -1,41 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   FlatList,
-  TouchableOpacity,
+  Pressable,
   ListRenderItem,
   StatusBar,
 } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { useFocusEffect } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/RootNavigator';
+import { TabsParamList } from '../navigation/RootNavigator';
 import { Entry } from '../types/Entry';
 import { entriesListScreenStyles as styles } from '../styles/EntriesListScreenStyle';
+import { useEntries } from '../contexts/EntriesContext';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'EntriesList'>;
+type Props = BottomTabScreenProps<TabsParamList, 'EntriesList'>;
 
 export default function EntriesListScreen({ navigation }: Props) {
-  const [entries, setEntries] = useState<Entry[]>([
-    {
-      id: '1',
-      title: 'First Entry',
-      description: 'This is a sample entry to demonstrate the list',
-      createdAt: new Date(),
-    },
-    {
-      id: '2',
-      title: 'Second Entry',
-      description: 'Another entry in the list',
-      createdAt: new Date(),
-    },
-  ]);
+  const { entries, loadEntries } = useEntries();
 
   useFocusEffect(
     React.useCallback(() => {
-      // Refresh data when returning from AddEntry screen
-      // This is where you would fetch fresh data
-    }, [])
+      // Refresh entries when screen is focused
+      loadEntries();
+    }, [loadEntries])
   );
 
   const formatDate = (date: Date) => {
@@ -52,7 +40,7 @@ export default function EntriesListScreen({ navigation }: Props) {
     <View style={styles.entryCard}>
       <Text style={styles.entryTitle}>{item.title}</Text>
       <Text style={styles.entryDescription}>{item.description}</Text>
-      <Text style={styles.entryDate}>{formatDate(item.createdAt)}</Text>
+      <Text style={styles.entryDate}>{formatDate(new Date(item.createdAt))}</Text>
     </View>
   );
 
@@ -60,7 +48,7 @@ export default function EntriesListScreen({ navigation }: Props) {
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyText}>No entries yet</Text>
       <Text style={styles.emptySubtext}>
-        Tap the "Add Entry" button to create your first entry
+        Tap "+ Add" to take or select a picture for your first entry
       </Text>
     </View>
   );
@@ -78,12 +66,12 @@ export default function EntriesListScreen({ navigation }: Props) {
               {entries.length} {entries.length === 1 ? 'entry' : 'entries'}
             </Text>
           </View>
-          <TouchableOpacity
+          <Pressable
             style={styles.addButton}
-            onPress={() => navigation.navigate('AddEntry')}
+            onPress={() => (navigation.getParent() as any).navigate('TravelEntry')}
           >
             <Text style={styles.addButtonText}>+ Add</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
 
@@ -94,6 +82,11 @@ export default function EntriesListScreen({ navigation }: Props) {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={renderEmpty}
+        ListFooterComponent={
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Travel Journal • Entries</Text>
+          </View>
+        }
         scrollEnabled={true}
       />
     </View>

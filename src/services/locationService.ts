@@ -10,14 +10,14 @@ export interface LocationCoordinates {
 
 export interface LocationAddress {
   formattedAddress: string;
-  street?: string;
-  streetNumber?: string;
-  city?: string;
-  region?: string;
-  postalCode?: string;
-  country?: string;
-  district?: string;
-  timezone?: string;
+  street?: string | null;
+  streetNumber?: string | null;
+  city?: string | null;
+  region?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
+  district?: string | null;
+  timezone?: string | null;
 }
 
 export interface CurrentLocation extends LocationCoordinates {
@@ -92,7 +92,7 @@ class LocationService {
         const address = await this.reverseGeocode(coords);
         return {
           ...coords,
-          address,
+          address: address || undefined,
         };
       }
 

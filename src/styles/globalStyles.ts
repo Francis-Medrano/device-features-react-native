@@ -11,5 +11,7 @@ export const COLORS = {
   text: '#1f2937',
   textMuted: '#6b7280',
   textLight: '#9ca3af',
+  textSecondary: '#9ca3af',
   placeholder: '#999',
+  error: '#FF6B6B',
 };

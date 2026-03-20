@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "device-features-react-native",
-    "slug": "device-features-react-native",
+    "slug": "device-features-react-native-dev",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,6 +26,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e57ea8a3-d9ab-454d-9f75-0476b0d2dbd5"
+      }
     }
   }
 }

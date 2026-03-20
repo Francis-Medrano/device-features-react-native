@@ -9,6 +9,7 @@ export const addEntryScreenStyles = StyleSheet.create({
   },
   scrollContent: {
     padding: DIMENSIONS.padding.screenHorizontal,
+    paddingBottom: DIMENSIONS.spacing.xl,
   },
   form: {
     gap: DIMENSIONS.gap.lg,
@@ -55,5 +56,16 @@ export const addEntryScreenStyles = StyleSheet.create({
     color: COLORS.white,
     fontSize: DIMENSIONS.fontSize.md,
     fontWeight: DIMENSIONS.fontWeight.semibold,
+  },
+  footer: {
+    marginTop: DIMENSIONS.spacing.xl,
+    paddingTop: DIMENSIONS.spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.darkBorder,
+    alignItems: 'center',
+  },
+  footerText: {
+    color: COLORS.textMuted,
+    fontSize: DIMENSIONS.fontSize.sm,
   },
 });

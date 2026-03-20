@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
-import { photoCaptureScreenStyles as styles } from '../styles/PhotoCaptureScreenStyle';
+import { travelEntryScreenStyles as styles } from '../styles/TravelEntryScreenStyle';
 import { COLORS } from '../styles/globalStyles';
 import { DIMENSIONS } from '../styles/dimensions';
 import CameraService, { CapturedImage } from '../services/CameraService';
@@ -20,14 +20,14 @@ import LocationService, { LocationAddress } from '../services/locationService';
 import { useEntries } from '../contexts/EntriesContext';
 import { Entry } from '../types/Entry';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'PhotoCapture'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'TravelEntry'>;
 
 interface LocationCoords {
   latitude: number;
   longitude: number;
 }
 
-export default function PhotoCaptureScreen({ navigation }: Props) {
+export default function TravelEntryScreen({ navigation }: Props) {
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [address, setAddress] = useState<LocationAddress | null>(null);
   const [locationCoords, setLocationCoords] = useState<LocationCoords | null>(null);
@@ -75,6 +75,21 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
     }
   };
 
+  const pickFromGallery = async () => {
+    try {
+      setLoadingCamera(true);
+      const image = await CameraService.pickImageFromGallery();
+
+      if (image) {
+        setPhotoUri(image.uri);
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
+    } finally {
+      setLoadingCamera(false);
+    }
+  };
+
   const fetchCurrentLocation = async () => {
     try {
       setLoadingAddress(true);
@@ -107,7 +122,7 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
 
   const handleSave = () => {
     if (!photoUri) {
-      Alert.alert('Required', 'Please take a picture first');
+      Alert.alert('Required', 'Please take or select a picture first');
       return;
     }
     setShowTitleModal(true);
@@ -115,7 +130,7 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
 
   const handleSaveEntry = async () => {
     if (!title.trim()) {
-      Alert.alert('Required', 'Please enter a title');
+      Alert.alert('Required', 'Please enter a location name/title');
       return;
     }
 
@@ -136,7 +151,7 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
       };
 
       await addEntry(entry);
-      Alert.alert('Success', 'Photo saved successfully!', [
+      Alert.alert('Success', 'Travel location saved successfully!', [
         {
           text: 'OK',
           onPress: () => {
@@ -149,7 +164,7 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
         },
       ]);
     } catch (error) {
-      Alert.alert('Error', 'Failed to save photo. Please try again.');
+      Alert.alert('Error', 'Failed to save travel entry. Please try again.');
       console.error('Save error:', error);
     } finally {
       setSaving(false);
@@ -160,7 +175,7 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
     <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>📸 Capture Photo</Text>
+        <Text style={styles.headerTitle}>✈️ Travel Entry</Text>
       </View>
 
       {/* Photo Section */}
@@ -169,7 +184,7 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
           {photoUri ? (
             <Image source={{ uri: photoUri }} style={styles.photo} />
           ) : (
-            <Text style={styles.photoPlaceholder}>No photo taken yet</Text>
+            <Text style={styles.photoPlaceholder}>No photo selected yet</Text>
           )}
         </View>
 
@@ -182,6 +197,18 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
             <ActivityIndicator size="small" color={COLORS.white} />
           ) : (
             <Text style={styles.takePictureButtonText}>📷 Take Picture</Text>
+          )}
+        </Pressable>
+
+        <Pressable 
+          style={styles.galleryButton} 
+          onPress={pickFromGallery}
+          disabled={loadingCamera}
+        >
+          {loadingCamera ? (
+            <ActivityIndicator size="small" color={COLORS.white} />
+          ) : (
+            <Text style={styles.takePictureButtonText}>🖼️ Pick from Gallery</Text>
           )}
         </Pressable>
 
@@ -230,7 +257,7 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
             onPress={handleSave}
             disabled={!photoUri}
           >
-            <Text style={styles.saveButtonText}>💾 Save</Text>
+            <Text style={styles.saveButtonText}>💾 Save Travel Entry</Text>
           </Pressable>
           <Pressable style={styles.cancelButton} onPress={() => navigation.goBack()}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
@@ -239,7 +266,7 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
       )}
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Travel Journal • Photo Capture</Text>
+        <Text style={styles.footerText}>Travel Journal • Travel Entry</Text>
       </View>
 
       {/* Title & Description Modal */}
@@ -251,26 +278,26 @@ export default function PhotoCaptureScreen({ navigation }: Props) {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>
-              Save Photo
+              Save Travel Location
             </Text>
 
             <Text style={styles.modalLabel}>
-              Title
+              Location Name
             </Text>
             <TextInput
               style={styles.modalInput}
-              placeholder="Enter title..."
+              placeholder="e.g., Eiffel Tower, Times Square..."
               placeholderTextColor={COLORS.textSecondary}
               value={title}
               onChangeText={setTitle}
             />
 
             <Text style={styles.modalLabel}>
-              Description (optional)
+              Notes (optional)
             </Text>
             <TextInput
               style={styles.modalInputMultiline}
-              placeholder="Enter description..."
+              placeholder="Add travel notes, memories, tips..."
               placeholderTextColor={COLORS.textSecondary}
               value={description}
               onChangeText={setDescription}

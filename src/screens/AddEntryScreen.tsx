@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { Text, View, TextInput, Pressable, ScrollView, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
@@ -54,13 +54,17 @@ export default function AddEntryScreen({ navigation }: Props) {
             numberOfLines={4}
           />
 
-          <TouchableOpacity style={styles.submitButton} onPress={handleAddEntry}>
+          <Pressable style={styles.submitButton} onPress={handleAddEntry}>
             <Text style={styles.submitButtonText}>Add Entry</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
+          <Pressable style={styles.cancelButton} onPress={() => navigation.goBack()}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
-          </TouchableOpacity>
+          </Pressable>
+        </View>
+
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>Travel Journal • Add Entry</Text>
         </View>
       </ScrollView>
     </View>
