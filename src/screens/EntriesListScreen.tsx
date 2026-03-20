@@ -42,11 +42,19 @@ export default function EntriesListScreen({ navigation }: Props) {
   };
 
   const renderEntry: ListRenderItem<Entry> = ({ item }) => (
-    <View style={[styles.entryCard, themeAwareStyles.card]}>
-      <Text style={[styles.entryTitle, themeAwareStyles.text]}>{item.title}</Text>
-      <Text style={[styles.entryDescription, themeAwareStyles.textMuted]}>{item.description}</Text>
-      <Text style={[styles.entryDate, themeAwareStyles.textLight]}>{formatDate(new Date(item.createdAt))}</Text>
-    </View>
+    <Pressable
+      onPress={() => (navigation.getParent() as any)?.navigate('EntryDetail', { entryId: item.id })}
+      style={({ pressed }) => [
+        styles.entryCardPressable,
+        pressed && styles.entryCardPressed,
+      ]}
+    >
+      <View style={[styles.entryCard, themeAwareStyles.card]}>
+        <Text style={[styles.entryTitle, themeAwareStyles.text]}>{item.title}</Text>
+        <Text style={[styles.entryDescription, themeAwareStyles.textMuted]}>{item.description}</Text>
+        <Text style={[styles.entryDate, themeAwareStyles.textLight]}>{formatDate(new Date(item.createdAt))}</Text>
+      </View>
+    </Pressable>
   );
 
   const renderEmpty = () => (

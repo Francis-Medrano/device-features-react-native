@@ -101,4 +101,10 @@ export const entriesListScreenStyles = StyleSheet.create({
     fontSize: DIMENSIONS.fontSize.sm,
     color: COLORS.textLight,
   },
+  entryCardPressable: {
+    marginBottom: DIMENSIONS.gap.lg,
+  },
+  entryCardPressed: {
+    opacity: 0.7,
+  },
 });

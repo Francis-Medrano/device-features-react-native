@@ -8,6 +8,7 @@ import AddEntryScreen from '../screens/AddEntryScreen';
 import EntriesListScreen from '../screens/EntriesListScreen';
 import PhotoCaptureScreen from '../screens/PhotoCaptureScreen';
 import TravelEntryScreen from '../screens/TravelEntryScreen';
+import EntryDetailScreen from '../screens/EntryDetailScreen';
 import { COLORS } from '../styles/globalStyles';
 import { useTheme } from '../contexts/ThemeContext';
 import { getThemeColors } from '../styles/themes';
@@ -17,6 +18,7 @@ export type RootStackParamList = {
   AddEntry: undefined;
   PhotoCapture: undefined;
   TravelEntry: undefined;
+  EntryDetail: { entryId: string };
 };
 
 export type TabsParamList = {
@@ -90,7 +92,6 @@ export default function RootNavigator() {
             fontWeight: '600',
             color: colors.text,
           },
-          headerBackTitleVisible: false,
           contentStyle: {
             backgroundColor: colors.background,
           },
@@ -125,6 +126,13 @@ export default function RootNavigator() {
           options={{
             title: 'Travel Entry',
             presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name="EntryDetail"
+          component={EntryDetailScreen}
+          options={{
+            title: 'Entry Details',
           }}
         />
       </Stack.Navigator>
