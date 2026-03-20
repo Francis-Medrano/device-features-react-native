@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 
 export interface CapturedImage {
   uri: string;
@@ -21,7 +21,10 @@ class CameraService {
           Alert.alert(
             'Camera Permission Denied',
             'Camera permission has been permanently denied. Please enable it in your device settings.',
-            [{ text: 'OK' }]
+            [
+              { text: 'Cancel', onPress: () => {} },
+              { text: 'Open Settings', onPress: () => Linking.openSettings() }
+            ]
           );
         } else {
           Alert.alert(
@@ -64,7 +67,10 @@ class CameraService {
           Alert.alert(
             'Media Library Permission Denied',
             'Media library permission has been permanently denied. Please enable it in your device settings.',
-            [{ text: 'OK' }]
+            [
+              { text: 'Cancel', onPress: () => {} },
+              { text: 'Open Settings', onPress: () => Linking.openSettings() }
+            ]
           );
         } else {
           Alert.alert(
@@ -178,12 +184,11 @@ class CameraService {
    */
   static async pickImageFromGallery(): Promise<CapturedImage | null> {
     try {
-      const hasPermission = await this.checkMediaLibraryPermissions();
-      if (!hasPermission) {
-        const permissionStatus = await this.requestMediaLibraryPermissions();
-        if (permissionStatus.status !== 'granted') {
-          return null;
-        }
+      // Always request permission first to ensure the system dialog shows
+      const permissionStatus = await this.requestMediaLibraryPermissions();
+      
+      if (permissionStatus.status !== 'granted') {
+        return null;
       }
 
       const result = await ImagePicker.launchImageLibraryAsync({

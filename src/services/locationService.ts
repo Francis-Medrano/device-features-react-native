@@ -1,5 +1,5 @@
 import * as Location from 'expo-location';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 
 export interface LocationCoordinates {
   latitude: number;
@@ -30,14 +30,25 @@ class LocationService {
    */
   static async requestLocationPermissions(): Promise<boolean> {
     try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
+      const result = await Location.requestForegroundPermissionsAsync();
 
-      if (status !== 'granted') {
-        Alert.alert(
-          'Location Permission Denied',
-          'Location permission is required to display your location. Please enable it in settings.',
-          [{ text: 'OK' }]
-        );
+      if (result.status !== 'granted') {
+        if (!result.canAskAgain) {
+          Alert.alert(
+            'Location Permission Denied',
+            'Location permission has been permanently denied. Please enable it in your device settings.',
+            [
+              { text: 'Cancel', onPress: () => {} },
+              { text: 'Open Settings', onPress: () => Linking.openSettings() }
+            ]
+          );
+        } else {
+          Alert.alert(
+            'Location Permission Required',
+            'This app needs access to your location to record where entries are created.',
+            [{ text: 'OK' }]
+          );
+        }
         return false;
       }
 
