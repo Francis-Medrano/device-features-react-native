@@ -18,6 +18,7 @@ import { useEntries } from '../contexts/EntriesContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { entryDetailScreenStyles as styles } from '../styles/EntryDetailScreenStyle';
 import { getThemeAwareStyles } from '../styles/themeAwareStyles';
+import { usePreventGoBack } from '../hooks/usePreventGoBack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EntryDetail'>;
 
@@ -26,6 +27,7 @@ export default function EntryDetailScreen({ route, navigation }: Props) {
   const { entries, removeEntry } = useEntries();
   const { theme } = useTheme();
   const themeAwareStyles = React.useMemo(() => getThemeAwareStyles(theme), [theme]);
+  usePreventGoBack();
 
   const entry = entries.find((e) => e.id === entryId);
   const [isDeleting, setIsDeleting] = React.useState(false);

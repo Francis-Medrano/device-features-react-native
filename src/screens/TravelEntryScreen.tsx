@@ -22,6 +22,7 @@ import LocationService, { LocationAddress } from '../services/locationService';
 import { useEntries } from '../contexts/EntriesContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { Entry } from '../types/Entry';
+import { usePreventGoBack } from '../hooks/usePreventGoBack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TravelEntry'>;
 
@@ -43,6 +44,7 @@ export default function TravelEntryScreen({ navigation }: Props) {
   const { addEntry } = useEntries();
   const { theme, toggleTheme } = useTheme();
   const themeAwareStyles = useMemo(() => getThemeAwareStyles(theme), [theme]);
+  usePreventGoBack();
 
   // Request permissions on component mount
   useEffect(() => {

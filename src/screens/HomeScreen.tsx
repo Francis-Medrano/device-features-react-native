@@ -11,6 +11,7 @@ import { getThemeAwareStyles } from '../styles/themeAwareStyles';
 import { useEntries } from '../contexts/EntriesContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { Entry } from '../types/Entry';
+import { usePreventGoBack } from '../hooks/usePreventGoBack';
 
 type Props = BottomTabScreenProps<TabsParamList, 'Home'>;
 
@@ -18,6 +19,7 @@ export default function HomeScreen({ navigation }: Props) {
   const { entries, loadEntries, removeEntry } = useEntries();
   const { theme, toggleTheme } = useTheme();
   const themeAwareStyles = useMemo(() => getThemeAwareStyles(theme), [theme]);
+  usePreventGoBack();
 
   useFocusEffect(
     useCallback(() => {

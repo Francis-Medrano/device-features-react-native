@@ -7,6 +7,7 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 import { addEntryScreenStyles as styles } from '../styles/AddEntryScreenStyle';
 import { getThemeAwareStyles } from '../styles/themeAwareStyles';
 import { useTheme } from '../contexts/ThemeContext';
+import { usePreventGoBack } from '../hooks/usePreventGoBack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddEntry'>;
 
@@ -15,6 +16,7 @@ export default function AddEntryScreen({ navigation }: Props) {
   const [description, setDescription] = useState('');
   const { theme, toggleTheme } = useTheme();
   const themeAwareStyles = useMemo(() => getThemeAwareStyles(theme), [theme]);
+  usePreventGoBack();
 
   const handleAddEntry = () => {
     if (!title.trim()) {

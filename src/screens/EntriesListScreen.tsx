@@ -16,6 +16,7 @@ import { entriesListScreenStyles as styles } from '../styles/EntriesListScreenSt
 import { getThemeAwareStyles } from '../styles/themeAwareStyles';
 import { useEntries } from '../contexts/EntriesContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { usePreventGoBack } from '../hooks/usePreventGoBack';
 
 type Props = BottomTabScreenProps<TabsParamList, 'EntriesList'>;
 
@@ -23,6 +24,7 @@ export default function EntriesListScreen({ navigation }: Props) {
   const { entries, loadEntries } = useEntries();
   const { theme } = useTheme();
   const themeAwareStyles = React.useMemo(() => getThemeAwareStyles(theme), [theme]);
+  usePreventGoBack();
 
   useFocusEffect(
     React.useCallback(() => {
