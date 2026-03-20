@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -10,14 +10,17 @@ import {
   TextInput,
   Modal,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 import { travelEntryScreenStyles as styles } from '../styles/TravelEntryScreenStyle';
+import { getThemeAwareStyles } from '../styles/themeAwareStyles';
 import { COLORS } from '../styles/globalStyles';
 import { DIMENSIONS } from '../styles/dimensions';
 import CameraService, { CapturedImage } from '../services/CameraService';
 import LocationService, { LocationAddress } from '../services/locationService';
 import { useEntries } from '../contexts/EntriesContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { Entry } from '../types/Entry';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TravelEntry'>;
@@ -38,6 +41,8 @@ export default function TravelEntryScreen({ navigation }: Props) {
   const [description, setDescription] = useState('');
   const [saving, setSaving] = useState(false);
   const { addEntry } = useEntries();
+  const { theme, toggleTheme } = useTheme();
+  const themeAwareStyles = useMemo(() => getThemeAwareStyles(theme), [theme]);
 
   // Request permissions on component mount
   useEffect(() => {
@@ -172,19 +177,14 @@ export default function TravelEntryScreen({ navigation }: Props) {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>✈️ Travel Entry</Text>
-      </View>
-
+    <ScrollView style={[styles.container, themeAwareStyles.container]} contentContainerStyle={styles.scrollContent}>
       {/* Photo Section */}
       <View style={styles.photoSection}>
-        <View style={styles.photoContainer}>
+        <View style={[styles.photoContainer, themeAwareStyles.card]}>
           {photoUri ? (
             <Image source={{ uri: photoUri }} style={styles.photo} />
           ) : (
-            <Text style={styles.photoPlaceholder}>No photo selected yet</Text>
+            <Text style={[styles.photoPlaceholder, themeAwareStyles.textMuted]}>No photo selected yet</Text>
           )}
         </View>
 
@@ -222,28 +222,28 @@ export default function TravelEntryScreen({ navigation }: Props) {
       {/* Address Section */}
       {photoUri && (
         <View style={styles.addressSection}>
-          <Text style={styles.sectionLabel}>📍 Location</Text>
-          <View style={styles.addressContainer}>
+          <Text style={[styles.sectionLabel, themeAwareStyles.title]}>📍 Location</Text>
+          <View style={[styles.addressContainer, themeAwareStyles.card]}>
             {loadingAddress ? (
               <View style={styles.loadingContainer}>
                 <ActivityIndicator size="small" color={COLORS.primary} />
-                <Text style={styles.loadingIndicatorText}>
+                <Text style={[styles.loadingIndicatorText, themeAwareStyles.textMuted]}>
                   Fetching location...
                 </Text>
               </View>
             ) : address ? (
               <>
-                <Text style={styles.addressText}>
+                <Text style={[styles.addressText, themeAwareStyles.text]}>
                   {LocationService.formatAddress(address, 'multiline')}
                 </Text>
                 {locationCoords && (
-                  <Text style={styles.coordinatesText}>
+                  <Text style={[styles.coordinatesText, themeAwareStyles.textLight]}>
                     📌 {locationCoords.latitude.toFixed(6)}, {locationCoords.longitude.toFixed(6)}
                   </Text>
                 )}
               </>
             ) : (
-              <Text style={styles.addressText}>No address available</Text>
+              <Text style={[styles.addressText, themeAwareStyles.textMuted]}>No address available</Text>
             )}
           </View>
         </View>
@@ -266,7 +266,7 @@ export default function TravelEntryScreen({ navigation }: Props) {
       )}
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Travel Journal • Travel Entry</Text>
+        <Text style={[styles.footerText, themeAwareStyles.textMuted]}>Travel Journal • Travel Entry</Text>
       </View>
 
       {/* Title & Description Modal */}
@@ -275,30 +275,30 @@ export default function TravelEntryScreen({ navigation }: Props) {
         transparent={true}
         animationType="slide"
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>
-              Save Travel Location
+        <View style={[styles.modalOverlay, { backgroundColor: themeAwareStyles.container.backgroundColor }]}>
+          <View style={[styles.modalContent, themeAwareStyles.card]}>
+            <Text style={[styles.modalTitle, themeAwareStyles.title]}>
+              Save Travel
             </Text>
 
-            <Text style={styles.modalLabel}>
-              Location Name
+            <Text style={[styles.modalLabel, themeAwareStyles.title]}>
+              Name
             </Text>
             <TextInput
-              style={styles.modalInput}
+              style={[styles.modalInput, themeAwareStyles.card, { color: themeAwareStyles.text.color }]}
               placeholder="e.g., Eiffel Tower, Times Square..."
-              placeholderTextColor={COLORS.textSecondary}
+              placeholderTextColor={themeAwareStyles.placeholder.color}
               value={title}
               onChangeText={setTitle}
             />
 
-            <Text style={styles.modalLabel}>
+            <Text style={[styles.modalLabel, themeAwareStyles.title]}>
               Notes (optional)
             </Text>
             <TextInput
-              style={styles.modalInputMultiline}
+              style={[styles.modalInputMultiline, themeAwareStyles.card, { color: themeAwareStyles.text.color }]}
               placeholder="Add travel notes, memories, tips..."
-              placeholderTextColor={COLORS.textSecondary}
+              placeholderTextColor={themeAwareStyles.placeholder.color}
               value={description}
               onChangeText={setDescription}
               multiline={true}

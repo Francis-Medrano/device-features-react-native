@@ -53,6 +53,49 @@ class CameraService {
   }
 
   /**
+   * Request media library permissions
+   */
+  static async requestMediaLibraryPermissions() {
+    try {
+      const result = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (result.status !== 'granted') {
+        if (!result.canAskAgain) {
+          Alert.alert(
+            'Media Library Permission Denied',
+            'Media library permission has been permanently denied. Please enable it in your device settings.',
+            [{ text: 'OK' }]
+          );
+        } else {
+          Alert.alert(
+            'Media Library Permission Required',
+            'This app needs access to your photos and videos.',
+            [{ text: 'OK' }]
+          );
+        }
+      }
+
+      return result;
+    } catch (error) {
+      console.error('Error requesting media library permissions:', error);
+      throw new Error('Failed to request media library permissions');
+    }
+  }
+
+  /**
+   * Check if media library permissions are granted
+   */
+  static async checkMediaLibraryPermissions(): Promise<boolean> {
+    try {
+      const result = await ImagePicker.getMediaLibraryPermissionsAsync();
+      return result.status === 'granted';
+    } catch (error) {
+      console.error('Error checking media library permissions:', error);
+      return false;
+    }
+  }
+
+  /**
    * Open camera and capture image
    */
   static async captureImage(): Promise<CapturedImage | null> {
@@ -135,6 +178,14 @@ class CameraService {
    */
   static async pickImageFromGallery(): Promise<CapturedImage | null> {
     try {
+      const hasPermission = await this.checkMediaLibraryPermissions();
+      if (!hasPermission) {
+        const permissionStatus = await this.requestMediaLibraryPermissions();
+        if (permissionStatus.status !== 'granted') {
+          return null;
+        }
+      }
+
       const result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],

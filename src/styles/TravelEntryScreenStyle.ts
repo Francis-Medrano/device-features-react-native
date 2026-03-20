@@ -169,6 +169,8 @@ export const travelEntryScreenStyles = StyleSheet.create({
     paddingVertical: DIMENSIONS.spacing.md,
     marginBottom: DIMENSIONS.spacing.md,
     fontSize: DIMENSIONS.fontSize.md,
+    borderWidth: 1,
+    borderColor: COLORS.darkBorder,
   },
   modalInputMultiline: {
     backgroundColor: COLORS.lightBg,
@@ -180,6 +182,8 @@ export const travelEntryScreenStyles = StyleSheet.create({
     fontSize: DIMENSIONS.fontSize.md,
     minHeight: 100,
     textAlignVertical: 'top',
+    borderWidth: 1,
+    borderColor: COLORS.darkBorder,
   },
   modalButtonRow: {
     flexDirection: 'row',

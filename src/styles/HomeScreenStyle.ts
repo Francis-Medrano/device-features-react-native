@@ -99,4 +99,11 @@ export const homeScreenStyles = StyleSheet.create({
     fontSize: DIMENSIONS.fontSize.sm,
     fontWeight: DIMENSIONS.fontWeight.semibold,
   },
+  themeToggleButton: {
+    padding: DIMENSIONS.spacing.sm,
+    borderRadius: DIMENSIONS.borderRadius.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

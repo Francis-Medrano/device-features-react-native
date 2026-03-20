@@ -9,6 +9,8 @@ import EntriesListScreen from '../screens/EntriesListScreen';
 import PhotoCaptureScreen from '../screens/PhotoCaptureScreen';
 import TravelEntryScreen from '../screens/TravelEntryScreen';
 import { COLORS } from '../styles/globalStyles';
+import { useTheme } from '../contexts/ThemeContext';
+import { getThemeColors } from '../styles/themes';
 
 export type RootStackParamList = {
   MainTabs: undefined;
@@ -27,19 +29,21 @@ const Tab = createBottomTabNavigator<TabsParamList>();
 
 // Tab Navigator
 function TabNavigator() {
+  const { theme } = useTheme();
+  const colors = getThemeColors(theme);
+
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#1a1a1a',
-          borderTopColor: '#3a3a3a',
-          borderTopWidth: 1,
-          paddingBottom: 5,
-          paddingTop: 5,
+          backgroundColor: colors.background,
+          borderTopColor: colors.border,
+          borderTopWidth: 0,
+          height: 90,
         },
         tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: COLORS.textMuted,
+        tabBarInactiveTintColor: colors.textMuted,
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '500',
@@ -50,7 +54,7 @@ function TabNavigator() {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: 'Features',
+          tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="grid" size={size} color={color} />
           ),
@@ -71,21 +75,24 @@ function TabNavigator() {
 }
 
 export default function RootNavigator() {
+  const { theme } = useTheme();
+  const colors = getThemeColors(theme);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#1a1a1a',
+            backgroundColor: colors.background,
           },
-          headerTintColor: '#007AFF',
+          headerTintColor: colors.primary,
           headerTitleStyle: {
             fontWeight: '600',
-            color: '#fff',
+            color: colors.text,
           },
           headerBackTitleVisible: false,
           contentStyle: {
-            backgroundColor: '#1a1a1a',
+            backgroundColor: colors.background,
           },
         }}
       >

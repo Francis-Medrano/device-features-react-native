@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Text, View, TextInput, Pressable, ScrollView, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 import { addEntryScreenStyles as styles } from '../styles/AddEntryScreenStyle';
+import { getThemeAwareStyles } from '../styles/themeAwareStyles';
+import { useTheme } from '../contexts/ThemeContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddEntry'>;
 
 export default function AddEntryScreen({ navigation }: Props) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const { theme, toggleTheme } = useTheme();
+  const themeAwareStyles = useMemo(() => getThemeAwareStyles(theme), [theme]);
 
   const handleAddEntry = () => {
     if (!title.trim()) {
@@ -30,24 +35,24 @@ export default function AddEntryScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="light" />
+    <View style={[styles.container, themeAwareStyles.container]}>
+      <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.form}>
-          <Text style={styles.label}>Entry Title</Text>
+          <Text style={[styles.label, themeAwareStyles.title]}>Entry Title</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, themeAwareStyles.card, { color: themeAwareStyles.text.color }]}
             placeholder="Enter title..."
-            placeholderTextColor="#999"
+            placeholderTextColor={themeAwareStyles.placeholder.color}
             value={title}
             onChangeText={setTitle}
           />
 
-          <Text style={styles.label}>Description</Text>
+          <Text style={[styles.label, themeAwareStyles.title]}>Description</Text>
           <TextInput
-            style={[styles.input, styles.textArea]}
+            style={[styles.input, styles.textArea, themeAwareStyles.card, { color: themeAwareStyles.text.color }]}
             placeholder="Enter description (optional)..."
-            placeholderTextColor="#999"
+            placeholderTextColor={themeAwareStyles.placeholder.color}
             value={description}
             onChangeText={setDescription}
             multiline
@@ -63,8 +68,8 @@ export default function AddEntryScreen({ navigation }: Props) {
           </Pressable>
         </View>
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Travel Journal • Add Entry</Text>
+        <View style={[styles.footer, themeAwareStyles.border]}>
+          <Text style={[styles.footerText, themeAwareStyles.textMuted]}>Travel Journal • Add Entry</Text>
         </View>
       </ScrollView>
     </View>

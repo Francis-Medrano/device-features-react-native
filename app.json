@@ -12,7 +12,15 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses your camera to capture photos for entries.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to select photos.",
+        "NSPhotoLibraryAddOnlyUsageDescription": "This app needs permission to save photos to your library.",
+        "NSLocationWhenInUseUsageDescription": "This app uses your location to record where entries are created.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses your location to record where entries are created.",
+        "NSLocationAlwaysUsageDescription": "This app uses your location to record where entries are created."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +30,14 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.whiskyyy.devicefeaturesreactnative"
+      "package": "com.whiskyyy.devicefeaturesreactnative",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
