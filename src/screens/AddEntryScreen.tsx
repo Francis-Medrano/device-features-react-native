@@ -63,7 +63,7 @@ export default function AddEntryScreen({ navigation }: Props) {
             <Text style={styles.submitButtonText}>Add Entry</Text>
           </Pressable>
 
-          <Pressable style={styles.cancelButton} onPress={() => navigation.goBack()}>
+          <Pressable style={styles.cancelButton} onPress={() => navigation.navigate('MainTabs', { screen: 'Home' })}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </Pressable>
         </View>

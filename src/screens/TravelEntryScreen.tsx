@@ -259,7 +259,7 @@ export default function TravelEntryScreen({ navigation }: Props) {
           >
             <Text style={styles.saveButtonText}>💾 Save Travel Entry</Text>
           </Pressable>
-          <Pressable style={styles.cancelButton} onPress={() => navigation.goBack()}>
+          <Pressable style={styles.cancelButton} onPress={() => navigation.navigate('MainTabs', { screen: 'Home' })}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </Pressable>
         </View>
